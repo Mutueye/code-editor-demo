@@ -1,17 +1,29 @@
 import { RouteRecordData } from '@/router/types';
-import Home from './views/Home.vue';
+
+const MonacoEditorDemo = () => import('./views/MonacoEditorDemo.vue');
+const CodeMirrorDemo = () => import('./views/CodeMirrorDemo.vue');
 
 const routeData: RouteRecordData = {
   admin: [
     {
-      path: '/home',
-      name: 'home',
-      component: Home,
+      path: '/monaco',
+      name: 'monaco',
+      component: MonacoEditorDemo,
       meta: {
-        title: '首页',
+        title: 'MonacoEditor',
         menuConfig: {
-          iconClass: 'i-mdi-home',
           order: 0,
+        },
+      },
+    },
+    {
+      path: '/codemirror',
+      name: 'codemirror',
+      component: CodeMirrorDemo,
+      meta: {
+        title: 'CodeMirror',
+        menuConfig: {
+          order: 1,
         },
       },
     },
