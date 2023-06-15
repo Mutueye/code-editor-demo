@@ -5,6 +5,8 @@ import App from '@/App.vue';
 import { router } from '@/router/index';
 import pinia from '@/store';
 
+import './monacoUserWorker';
+
 // element-plus css variables
 import 'element-plus/theme-chalk/el-var.css';
 // element-plus darkmode css variables

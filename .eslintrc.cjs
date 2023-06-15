@@ -12,6 +12,7 @@ module.exports = {
     // '@typescript-eslint/explicit-function-return-type': 'warn',
     'vue/multi-word-component-names': 'off',
     'vue/no-dupe-keys': 'off',
+    '@typescript-eslint/ban-ts-comment': 'off',
   },
   globals: {
     defineEmits: 'readonly',

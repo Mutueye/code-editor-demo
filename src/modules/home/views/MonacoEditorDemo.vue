@@ -1,7 +1,10 @@
 <template>
   <ScrollableContent>
-    <div>Monaco Editor Demo</div>
+    <MonacoEditorCompo />
   </ScrollableContent>
 </template>
 
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+  import ScrollableContent from '@/components/ScrollableContent.vue';
+  import MonacoEditorCompo from './components/MonacoEditorCompo.vue';
+</script>
