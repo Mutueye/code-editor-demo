@@ -1,3 +1,5 @@
+export type EditorState = 'saved' | 'saving' | 'edited';
+
 export interface EditorConfig {
   /** 是否使用暗色模式 */
   isDark: boolean;

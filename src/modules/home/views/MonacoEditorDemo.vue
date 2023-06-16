@@ -1,11 +1,24 @@
 <template>
   <div class="flex flex-1 flex-col px-spacing-xl pb-spacing-xl min-h-0">
     <div class="flex flex-row pb-spacing items-center justify-between">
-      <el-select v-model="currentCode" value-key="language">
-        <el-option v-for="file in fileList" :key="file.language" :value="file" :label="file.language" />
+      <el-select
+        ref="languageSelectRef"
+        v-model="currentCode"
+        :disabled="editorState === 'saving'"
+        value-key="language">
+        <el-option v-for="file in fileList" :key="file.language" :value="file" :label="file.language">
+          <div @click.stop="onSelectLanguage(file)">{{ file.language }}</div>
+        </el-option>
       </el-select>
       <div class="flex flex-row items-center">
-        <el-button type="primary" @click="goSave">保存</el-button>
+        <div v-if="editorState !== 'saved'" class="w-8px h-8px bg-theme rounded-full mr-spacing-sm" />
+        <el-button
+          :loading="editorState === 'saving'"
+          :disabled="editorState === 'saved'"
+          type="primary"
+          @click="goSave()">
+          {{ editorState === 'saving' ? '保存中...' : '保存' }}
+        </el-button>
         <el-button type="primary" @click="goReset">重置</el-button>
         <el-button type="primary" @click="showConfig">设置</el-button>
       </div>
@@ -35,13 +48,15 @@
   import MonacoEditorCompo from './components/MonacoEditorCompo.vue';
   import ConfigDrawer from './components/ConfigDrawer.vue';
   import { CodeFileData, fileList } from '@/utils/editorFiles';
-  import { ElMessage, ElMessageBox } from 'element-plus';
-  import { EditorConfig } from '../types';
+  import { ElMessage, ElMessageBox, ElSelect } from 'element-plus';
+  import { EditorConfig, EditorState } from '../types';
   import { useToggleDayNight } from '@/componsables/useToggleDayNight';
 
   const { isDark } = useToggleDayNight();
 
+  const editorState = ref<EditorState>('saved');
   const currentCode = ref<CodeFileData>(fileList[0]);
+  const languageSelectRef = ref<InstanceType<typeof ElSelect>>();
   const editorRef = ref<InstanceType<typeof MonacoEditorCompo>>();
   const configDrawerRef = ref<InstanceType<typeof ConfigDrawer>>();
   const editorConfig = ref<EditorConfig>({
@@ -81,6 +96,45 @@
     // }
   };
 
+  const onSelectLanguage = (val: CodeFileData) => {
+    if (editorState.value === 'edited') {
+      ElMessageBox.confirm('您的代码尚未保存', '提示', {
+        confirmButtonText: '保存并切换',
+        cancelButtonText: '取消切换',
+        type: '',
+      })
+        .then(() => {
+          if (languageSelectRef.value) languageSelectRef.value.blur;
+          goSave(() => {
+            currentCode.value = val;
+          });
+        })
+        .catch(() => {
+          if (languageSelectRef.value) languageSelectRef.value.blur;
+        });
+    } else {
+      currentCode.value = val;
+    }
+  };
+
+  // const onCodeChange = (val: CodeFileData) => {
+  //   if (editorState.value === 'edited') {
+  //     ElMessageBox.confirm('您的代码尚未保存', '提示', {
+  //       confirmButtonText: '保存',
+  //       cancelButtonText: '取消',
+  //       type: '',
+  //     })
+  //       .then(() => {
+  //         if (editorRef.value) editorRef.value.reset();
+  //         ElMessage({
+  //           type: 'success',
+  //           message: '代码已重置',
+  //         });
+  //       })
+  //       .catch(() => null);
+  //   }
+  // };
+
   const goReset = () => {
     if (editorRef.value) {
       ElMessageBox.confirm('确定要重置代码吗', '重置代码', {
@@ -99,8 +153,13 @@
     }
   };
 
-  const goSave = () => {
-    if (editorRef.value) editorRef.value.save();
+  const goSave = (callback?: () => void) => {
+    editorState.value = 'saving';
+    setTimeout(() => {
+      if (editorRef.value) editorRef.value.save();
+      editorState.value = 'saved';
+      if (typeof callback === 'function') callback();
+    }, 2000);
   };
 
   const onSave = (val: string) => {
@@ -109,6 +168,7 @@
   };
 
   const onChange = (val: string) => {
+    editorState.value = 'edited';
     console.log('onChange:', val);
   };
 
