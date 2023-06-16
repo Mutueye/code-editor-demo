@@ -63,6 +63,7 @@ export default defineConfig(({ mode }) => {
 
   return {
     ...baseConfig,
+    base: `${process.env.VITE_APP_BASE_PATH}`,
     build: {
       rollupOptions: {
         output: {
