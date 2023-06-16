@@ -26,6 +26,8 @@
     language?: string;
     /**  字体大小，传数字，默认16，即16px */
     fontSize?: number;
+    /** tab转换 自动将tab转换位space */
+    insertSpaces?: boolean;
     /** 自动格式化，会同时设置formatOnType和formatOnPast两个monaco editor的选项 */
     autoFormat?: boolean;
     /** monaco-editor的选项，优先级低于单独传入的fontSize autoFormat等参数 */
@@ -33,7 +35,7 @@
     /** 默认(初始)值，可使用该值进行重置代码 */
     defaultValue?: string;
   }>();
-  const { disableCopyPaste, defaultValue, fontSize, autoFormat } = toRefs(props);
+  const { disableCopyPaste, defaultValue, fontSize, autoFormat, insertSpaces } = toRefs(props);
 
   const emit = defineEmits(['save', 'change', 'reset', 'editor-mounted', 'copy-paste-disabled']);
 
@@ -44,6 +46,7 @@
     formatOnType: true,
     formatOnPaste: true,
     fontSize: 16,
+    insertSpaces: true,
   };
 
   const code = ref('');
@@ -58,6 +61,9 @@
     if (autoFormat.value === false || autoFormat.value === true) {
       extraOptions.formatOnType = autoFormat.value;
       extraOptions.formatOnPaste = autoFormat.value;
+    }
+    if (insertSpaces.value === false || insertSpaces.value) {
+      extraOptions.insertSpaces = insertSpaces.value;
     }
     return Object.assign({}, defaultOptions, extraOptions);
   });

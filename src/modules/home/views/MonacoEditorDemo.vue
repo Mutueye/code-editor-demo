@@ -5,6 +5,8 @@
         <el-option v-for="file in fileList" :key="file.language" :value="file" :label="file.language" />
       </el-select>
       <div class="flex flex-row items-center">
+        <el-button type="primary" @click="goSave">保存</el-button>
+        <el-button type="primary" @click="goReset">重置</el-button>
         <el-button type="primary" @click="showConfig">设置</el-button>
       </div>
     </div>
@@ -25,7 +27,7 @@
         @reset="onReset" />
     </div>
   </div>
-  <ConfigDrawer ref="configDrawerRef" :config="editorConfig" @change="onConfigChange" />
+  <ConfigDrawer ref="configDrawerRef" :config="editorConfig" />
 </template>
 
 <script lang="ts" setup>
@@ -33,7 +35,7 @@
   import MonacoEditorCompo from './components/MonacoEditorCompo.vue';
   import ConfigDrawer from './components/ConfigDrawer.vue';
   import { CodeFileData, fileList } from '@/utils/editorFiles';
-  import { ElMessage } from 'element-plus';
+  import { ElMessage, ElMessageBox } from 'element-plus';
   import { EditorConfig } from '../types';
   import { useToggleDayNight } from '@/componsables/useToggleDayNight';
 
@@ -49,6 +51,8 @@
     autoFormat: true,
     /** 字体大小 */
     fontSize: 16,
+    /** tab转换 */
+    insertSpaces: true,
     /** 是否禁用复制粘贴 */
     disableCopyPaste: false,
   });
@@ -70,14 +74,33 @@
     }
   };
 
-  const onConfigChange = (val: Partial<EditorConfig>) => {
-    editorConfig.value = Object.assign(editorConfig.value, val);
-  };
-
   const onEditorMounted = () => {
+    console.log('editor mounted');
     // if (editorRef.value) {
     //   editorRef.value.save();
     // }
+  };
+
+  const goReset = () => {
+    if (editorRef.value) {
+      ElMessageBox.confirm('确定要重置代码吗', '重置代码', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: '',
+      })
+        .then(() => {
+          if (editorRef.value) editorRef.value.reset();
+          ElMessage({
+            type: 'success',
+            message: '代码已重置',
+          });
+        })
+        .catch(() => null);
+    }
+  };
+
+  const goSave = () => {
+    if (editorRef.value) editorRef.value.save();
   };
 
   const onSave = (val: string) => {

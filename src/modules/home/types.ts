@@ -5,6 +5,8 @@ export interface EditorConfig {
   autoFormat: boolean;
   /** 字体大小 */
   fontSize: number;
+  /** tab转换 */
+  insertSpaces: boolean;
   /** 是否禁用复制粘贴 */
   disableCopyPaste: boolean;
 }
