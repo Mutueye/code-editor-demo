@@ -114,26 +114,9 @@
         });
     } else {
       currentCode.value = val;
+      if (languageSelectRef.value) languageSelectRef.value.blur;
     }
   };
-
-  // const onCodeChange = (val: CodeFileData) => {
-  //   if (editorState.value === 'edited') {
-  //     ElMessageBox.confirm('您的代码尚未保存', '提示', {
-  //       confirmButtonText: '保存',
-  //       cancelButtonText: '取消',
-  //       type: '',
-  //     })
-  //       .then(() => {
-  //         if (editorRef.value) editorRef.value.reset();
-  //         ElMessage({
-  //           type: 'success',
-  //           message: '代码已重置',
-  //         });
-  //       })
-  //       .catch(() => null);
-  //   }
-  // };
 
   const goReset = () => {
     if (editorRef.value) {
