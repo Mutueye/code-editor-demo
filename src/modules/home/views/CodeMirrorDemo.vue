@@ -1,7 +1,5 @@
 <template>
-  <ScrollableContent>
-    <div>Code Mirror Demo</div>
-  </ScrollableContent>
+  <div class="px-spacing-xl pb-spacing-xl">Code Mirror Demo WIP</div>
 </template>
 
 <script lang="ts" setup></script>
