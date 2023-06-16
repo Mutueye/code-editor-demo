@@ -104,17 +104,17 @@
         type: '',
       })
         .then(() => {
-          if (languageSelectRef.value) languageSelectRef.value.blur;
+          if (languageSelectRef.value) languageSelectRef.value.blur();
           goSave(() => {
             currentCode.value = val;
           });
         })
         .catch(() => {
-          if (languageSelectRef.value) languageSelectRef.value.blur;
+          if (languageSelectRef.value) languageSelectRef.value.blur();
         });
     } else {
       currentCode.value = val;
-      if (languageSelectRef.value) languageSelectRef.value.blur;
+      if (languageSelectRef.value) languageSelectRef.value.blur();
     }
   };
 
