@@ -1,7 +1,6 @@
 import { RouteRecordData } from '@/router/types';
-
-const MonacoEditorDemo = () => import('./views/MonacoEditorDemo.vue');
-const CodeMirrorDemo = () => import('./views/CodeMirrorDemo.vue');
+import MonacoEditorDemo from './views/MonacoEditorDemo.vue';
+import CodeMirrorDemo from './views/CodeMirrorDemo.vue';
 
 const routeData: RouteRecordData = {
   admin: [
