@@ -50,9 +50,9 @@
   import { CodeFileData, fileList } from '@/utils/editorFiles';
   import { ElMessage, ElMessageBox, ElSelect } from 'element-plus';
   import { EditorConfig, EditorState } from '../types';
-  import { useToggleDayNight } from '@/componsables/useToggleDayNight';
+  import { useDark } from '@vueuse/core';
 
-  const { isDark } = useToggleDayNight();
+  const isDark = useDark({ disableTransition: false });
 
   const editorState = ref<EditorState>('saved');
   const currentCode = ref<CodeFileData>(fileList[0]);
