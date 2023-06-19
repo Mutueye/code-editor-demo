@@ -30,12 +30,14 @@
     insertSpaces?: boolean;
     /** 自动格式化，会同时设置formatOnType和formatOnPast两个monaco editor的选项 */
     autoFormat?: boolean;
+    /** 是否只读 */
+    readOnly?: boolean;
     /** monaco-editor的选项，优先级低于单独传入的fontSize autoFormat等参数 */
     options?: monacoEditor.editor.IStandaloneEditorConstructionOptions;
     /** 默认(初始)值，可使用该值进行重置代码 */
     defaultValue?: string;
   }>();
-  const { disableCopyPaste, defaultValue, fontSize, autoFormat, insertSpaces } = toRefs(props);
+  const { disableCopyPaste, defaultValue, fontSize, autoFormat, insertSpaces, readOnly } = toRefs(props);
 
   const emit = defineEmits(['save', 'change', 'reset', 'editor-mounted', 'copy-paste-disabled']);
 
@@ -58,12 +60,15 @@
     if (fontSize?.value) {
       extraOptions.fontSize = fontSize.value;
     }
-    if (autoFormat.value === false || autoFormat.value === true) {
+    if (typeof autoFormat.value === 'boolean') {
       extraOptions.formatOnType = autoFormat.value;
       extraOptions.formatOnPaste = autoFormat.value;
     }
-    if (insertSpaces.value === false || insertSpaces.value) {
+    if (typeof insertSpaces.value === 'boolean') {
       extraOptions.insertSpaces = insertSpaces.value;
+    }
+    if (typeof readOnly.value === 'boolean') {
+      extraOptions.readOnly = readOnly.value;
     }
     return Object.assign({}, defaultOptions, extraOptions);
   });

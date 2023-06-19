@@ -31,6 +31,7 @@
         :disable-copy-paste="editorConfig.disableCopyPaste"
         :font-size="editorConfig.fontSize"
         :auto-format="editorConfig.autoFormat"
+        :read-only="editorConfig.readOnly"
         :default-value="currentCode.source"
         :language="currentCode.language"
         @editor-mounted="onEditorMounted"
@@ -70,6 +71,8 @@
     insertSpaces: true,
     /** 是否禁用复制粘贴 */
     disableCopyPaste: false,
+    /** 是否只读 */
+    readOnly: false,
   });
 
   /** 切换日夜模式触发编辑器主题切换 */

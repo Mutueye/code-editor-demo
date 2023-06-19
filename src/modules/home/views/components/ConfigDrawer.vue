@@ -24,6 +24,10 @@
         <div class="color-text-regular">禁用复制粘贴</div>
         <el-switch v-model="config.disableCopyPaste" />
       </div>
+      <div class="flex flex-row items-center justify-between pt-spacing-sm">
+        <div class="color-text-regular">只读模式</div>
+        <el-switch v-model="config.readOnly" />
+      </div>
     </div>
   </el-drawer>
 </template>

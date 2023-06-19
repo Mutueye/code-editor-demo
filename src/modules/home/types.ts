@@ -11,4 +11,6 @@ export interface EditorConfig {
   insertSpaces: boolean;
   /** 是否禁用复制粘贴 */
   disableCopyPaste: boolean;
+  /** 是否只读 */
+  readOnly: boolean;
 }
