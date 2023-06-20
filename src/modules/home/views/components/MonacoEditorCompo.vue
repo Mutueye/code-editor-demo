@@ -34,10 +34,12 @@
     readOnly?: boolean;
     /** monaco-editor的选项，优先级低于单独传入的fontSize autoFormat等参数 */
     options?: monacoEditor.editor.IStandaloneEditorConstructionOptions;
-    /** 默认(初始)值，可使用该值进行重置代码 */
+    /** 初始值 */
+    initialValue?: string;
+    /** 默认值，重置代码赋值 */
     defaultValue?: string;
   }>();
-  const { disableCopyPaste, defaultValue, fontSize, autoFormat, insertSpaces, readOnly } = toRefs(props);
+  const { disableCopyPaste, defaultValue, fontSize, options, autoFormat, insertSpaces, readOnly } = toRefs(props);
 
   const emit = defineEmits(['save', 'change', 'reset', 'editor-mounted', 'copy-paste-disabled']);
 
@@ -70,7 +72,7 @@
     if (typeof readOnly.value === 'boolean') {
       extraOptions.readOnly = readOnly.value;
     }
-    return Object.assign({}, defaultOptions, extraOptions);
+    return Object.assign({}, defaultOptions, options, extraOptions);
   });
 
   /** 控制 启用/禁用 右键菜单的复制粘贴功能 */
